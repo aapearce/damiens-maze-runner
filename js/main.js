@@ -40,7 +40,10 @@ class Game {
     this._bindKeys();
 
     this.engine.runRenderLoop(() => this._frame());
-    window.addEventListener("resize", () => this.engine.resize());
+    window.addEventListener("resize", () => {
+      this.engine.resize();
+      this._updateFov();
+    });
 
     ui.showScreen(ui.dom.menu);
     ui.setHudVisible(false);
@@ -57,10 +60,11 @@ class Game {
 
     // first-person camera, driven manually by Player
     const cam = new BABYLON.UniversalCamera("cam", new BABYLON.Vector3(0, 1.7, 0), scene);
-    cam.fov = 1.15;
+    cam.fov = 1.15; // base vertical FOV; widened on narrow screens by _updateFov()
     cam.minZ = 0.1;
     cam.maxZ = 200;
     this.camera = cam;
+    this._updateFov();
 
     // dim ambient + a torch that follows the player
     const amb = new BABYLON.HemisphericLight("amb", new BABYLON.Vector3(0, 1, 0), scene);
@@ -90,6 +94,27 @@ class Game {
     this.portal = new Portal(scene, this.glow);
 
     return scene;
+  }
+
+  // Keep a comfortable HORIZONTAL field of view on every screen.
+  // Babylon fixes the vertical FOV, so a tall/narrow phone would otherwise show a
+  // claustrophobic ~33° horizontally (walls look huge & close). We widen the vertical
+  // FOV only when needed, so desktop is unchanged but portrait phones open right up.
+  _updateFov() {
+    if (!this.camera) return;
+    const w = this.engine.getRenderWidth();
+    const h = this.engine.getRenderHeight();
+    const aspect = w / Math.max(1, h);
+    const BASE_V = 1.15;     // desktop-friendly vertical FOV
+    const MIN_H = 1.45;      // ~83° minimum horizontal FOV we want to guarantee
+    const MAX_V = 1.6;       // cap vertical FOV to avoid fisheye on very tall screens
+
+    const horizAtBase = 2 * Math.atan(Math.tan(BASE_V / 2) * aspect);
+    let vfov = BASE_V;
+    if (horizAtBase < MIN_H) {
+      vfov = 2 * Math.atan(Math.tan(MIN_H / 2) / aspect);
+    }
+    this.camera.fov = Math.min(vfov, MAX_V);
   }
 
   // ---------- level lifecycle ----------
