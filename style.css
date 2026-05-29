@@ -11,6 +11,20 @@ html, body {
 
 .hidden { display: none !important; }
 
+/* ===== Back-to-arcade link ===== */
+#arcade-link {
+  position: absolute; top: 16px; left: 18px; z-index: 50;
+  display: inline-flex; align-items: center; gap: 6px;
+  text-decoration: none; cursor: pointer;
+  font-family: inherit; font-weight: bold; letter-spacing: 2px; text-transform: uppercase;
+  font-size: 14px; padding: 9px 16px; border-radius: 10px; color: #cfe9ff;
+  background: rgba(40,80,140,0.5); border: 1px solid rgba(120,200,255,0.55);
+  box-shadow: 0 0 14px rgba(42,159,255,0.25);
+  transition: transform .12s, background .12s;
+}
+#arcade-link:hover { background: rgba(120,200,255,0.2); transform: translateY(-2px); }
+#arcade-link.hidden { display: none !important; }
+
 /* ===== Monster proximity danger glow ===== */
 #danger-vignette {
   position: absolute; inset: 0; z-index: 15; pointer-events: none; opacity: 0;
