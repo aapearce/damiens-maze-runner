@@ -343,6 +343,53 @@ class Game {
       ui.renderBoard();
       ui.showScreen(ui.dom.board);
     });
+
+    this._bindTouch();
+  }
+
+  _bindTouch() {
+    const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    if (isTouch) document.body.classList.add("touch");
+
+    // on-screen movement buttons → same keys as the arrow controls
+    const actToKey = {
+      up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight",
+    };
+    document.querySelectorAll(".tc-btn").forEach((btn) => {
+      const key = actToKey[btn.dataset.act];
+      const press = (e) => {
+        e.preventDefault();
+        if (this.state !== "playing" || this.transitioning || ui.isMapOpen()) return;
+        this.player.setKey(key, true);
+        btn.classList.add("active");
+        try { btn.setPointerCapture(e.pointerId); } catch {}
+      };
+      const release = (e) => {
+        if (e) e.preventDefault();
+        this.player.setKey(key, false);
+        btn.classList.remove("active");
+      };
+      btn.addEventListener("pointerdown", press);
+      btn.addEventListener("pointerup", release);
+      btn.addEventListener("pointercancel", release);
+      btn.addEventListener("pointerleave", release);
+    });
+
+    // touch map button (mirrors the M key)
+    document.getElementById("map-btn").addEventListener("click", () => {
+      if (this.state !== "playing" || this.transitioning) return;
+      const open = ui.toggleMap();
+      if (open) ui.drawMap(this.cells, this.walls, this.player, this.monsters, this.portal);
+      else this.player.releaseAll();
+    });
+
+    // tap the map to close it (touch has no keyboard)
+    ui.dom.mapOverlay.addEventListener("click", () => {
+      if (ui.isMapOpen()) {
+        ui.toggleMap(false);
+        this.player.releaseAll();
+      }
+    });
   }
 }
 

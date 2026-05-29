@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Damien's Maze Runner</title>
   <link rel="stylesheet" href="style.css" />
   <!-- Babylon.js engine (UMD global: BABYLON) -->
@@ -26,12 +26,25 @@
     </div>
     <button id="quit-btn" title="Quit to menu">✕ QUIT</button>
     <div id="hint">Arrow keys to move &nbsp;•&nbsp; Press <b>M</b> for map</div>
+
+    <!-- ===== Touch controls (shown only on touch devices) ===== -->
+    <button id="map-btn" class="touch-only" title="Map">🗺 MAP</button>
+    <div class="touch-controls">
+      <div class="tc-left">
+        <button class="tc-btn" data-act="left" aria-label="Turn left">◄</button>
+        <button class="tc-btn" data-act="right" aria-label="Turn right">►</button>
+      </div>
+      <div class="tc-right">
+        <button class="tc-btn" data-act="up" aria-label="Forward">▲</button>
+        <button class="tc-btn" data-act="down" aria-label="Backward">▼</button>
+      </div>
+    </div>
   </div>
 
   <!-- ===== Map overlay (toggle with M) ===== -->
   <div id="map-overlay" class="hidden">
     <canvas id="mapCanvas" width="520" height="520"></canvas>
-    <div class="map-caption">MAZE MAP — press <b>M</b> to close</div>
+    <div class="map-caption">MAZE MAP — press <b>M</b> or tap to close</div>
   </div>
 
   <!-- ===== Main menu ===== -->
@@ -45,7 +58,8 @@
     </div>
     <button id="show-board-btn" class="ghost-btn">🏆 Leaderboard</button>
     <div class="controls-help">
-      ↑ forward &nbsp; ↓ back &nbsp; ← turn left &nbsp; → turn right &nbsp; | &nbsp; M = map
+      <span class="kb-help">↑ forward &nbsp; ↓ back &nbsp; ← turn left &nbsp; → turn right &nbsp; | &nbsp; M = map</span>
+      <span class="touch-help">Use the on-screen ◄ ► ▲ ▼ buttons to move &nbsp; • &nbsp; tap MAP for the map</span>
     </div>
   </div>
 

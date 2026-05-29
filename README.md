@@ -27,6 +27,8 @@ python3 -m http.server 8000
 | **M** | Toggle the maze map |
 | **✕ Quit** (top-right) | Return to the main menu |
 
+**On phones/tablets** the game auto-shows on-screen touch controls: turn ◄ ► buttons (bottom-left), move ▲ ▼ buttons (bottom-right), and a **🗺 MAP** button (bottom-centre — tap the map to close it).
+
 ## 🧩 Features
 
 - **First-person 3D maze** with atmospheric fog, dynamic torch light, and bloom/glow.
