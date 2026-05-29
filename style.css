@@ -86,7 +86,7 @@ html, body {
 #hud { position: absolute; inset: 0; pointer-events: none; z-index: 20; }
 
 #hud-top-left {
-  position: absolute; top: 18px; left: 18px;
+  position: absolute; top: 64px; left: 18px; /* sits below the always-on arcade link */
   display: flex; flex-direction: column; gap: 8px;
 }
 #level-name {

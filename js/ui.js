@@ -32,9 +32,8 @@ export function showScreen(el) {
 
 export function setHudVisible(v) {
   dom.hud.classList.toggle("hidden", !v);
-  // The arcade link is for menus only — hide it while actually playing.
-  const link = document.getElementById("arcade-link");
-  if (link) link.classList.toggle("hidden", v);
+  // The arcade link stays visible at all times (menus AND during play) so there
+  // is always a one-click way back to the hub.
 }
 
 export function setLevelName(name) {
