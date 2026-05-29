@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Damien's Maze Runner</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Babylon.js engine (UMD global: BABYLON) -->
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+</head>
+<body>
+  <!-- 3D render target -->
+  <canvas id="renderCanvas" touch-action="none"></canvas>
+
+  <!-- Red "monster nearby" danger glow (opacity driven by proximity) -->
+  <div id="danger-vignette"></div>
+
+  <!-- ===== In-game HUD ===== -->
+  <div id="hud" class="hidden">
+    <div id="hud-top-left">
+      <div id="level-name">EASY</div>
+      <div id="health-wrap" title="Health">
+        <span class="heart">❤</span><span class="heart">❤</span>
+      </div>
+      <div id="timer">00:00</div>
+    </div>
+    <button id="quit-btn" title="Quit to menu">✕ QUIT</button>
+    <div id="hint">Arrow keys to move &nbsp;•&nbsp; Press <b>M</b> for map</div>
+  </div>
+
+  <!-- ===== Map overlay (toggle with M) ===== -->
+  <div id="map-overlay" class="hidden">
+    <canvas id="mapCanvas" width="520" height="520"></canvas>
+    <div class="map-caption">MAZE MAP — press <b>M</b> to close</div>
+  </div>
+
+  <!-- ===== Main menu ===== -->
+  <div id="menu" class="screen">
+    <h1 class="title">DAMIEN'S<br><span>MAZE RUNNER</span></h1>
+    <p class="subtitle">Escape the maze. Avoid the masked ones.</p>
+    <div class="level-buttons">
+      <button class="lvl-btn" data-level="0">EASY</button>
+      <button class="lvl-btn" data-level="1">MEDIUM</button>
+      <button class="lvl-btn" data-level="2">HARD</button>
+    </div>
+    <button id="show-board-btn" class="ghost-btn">🏆 Leaderboard</button>
+    <div class="controls-help">
+      ↑ forward &nbsp; ↓ back &nbsp; ← turn left &nbsp; → turn right &nbsp; | &nbsp; M = map
+    </div>
+  </div>
+
+  <!-- ===== Death screen ===== -->
+  <div id="death" class="screen hidden">
+    <h1 class="title death-title">YOU DIED</h1>
+    <p class="subtitle">The masked ones got you.</p>
+    <button id="retry-btn" class="lvl-btn">RETRY LEVEL</button>
+    <button id="death-menu-btn" class="ghost-btn">Main menu</button>
+  </div>
+
+  <!-- ===== Win / results screen ===== -->
+  <div id="win" class="screen hidden">
+    <h1 class="title win-title">YOU ESCAPED!</h1>
+    <div id="stars">★★★</div>
+    <p id="score-line" class="subtitle"></p>
+    <div id="name-entry">
+      <input id="name-input" maxlength="12" placeholder="Your name" />
+      <button id="save-score-btn" class="lvl-btn">SAVE SCORE</button>
+    </div>
+    <button id="win-menu-btn" class="ghost-btn">Main menu</button>
+  </div>
+
+  <!-- ===== Leaderboard ===== -->
+  <div id="board" class="screen hidden">
+    <h1 class="title">🏆 TOP 10</h1>
+    <ol id="board-list"></ol>
+    <button id="board-back-btn" class="ghost-btn">Back</button>
+  </div>
+
+  <!-- ===== Wormhole transition overlay ===== -->
+  <div id="wormhole" class="hidden"><div class="swirl"></div><div class="wh-text">ENTERING THE WORMHOLE…</div></div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
